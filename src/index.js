@@ -3,7 +3,6 @@ const autoIncrement = require('mongoose-auto-increment')
 const bluebird = require('bluebird')
 const config = require('./config')
 mongoose.Promise = bluebird
-console.log(config.mongo.url)
 const connection = mongoose.connection.openUri(config.mongo.url)
 autoIncrement.initialize(connection)
 

@@ -5,12 +5,11 @@ const userSchema = new Schema(
 	{
 		_id: {type: String, required: true},
 		name: {type: String, required: true},
-		pass: {type: String, required: true},
+		pass: {type: String, required: false},
 		profiles: {type: [String], required: true},
 		userCreated: {type: String, required: true},
 		dateCreated: {type: Date, required: false},
 		dateModified: {type: Date, required: false},
-		changePassword: {type: Boolean, required: true},
 	}, {
 		toObject: {
 			virtuals: true,

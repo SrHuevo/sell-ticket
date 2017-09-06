@@ -5,7 +5,7 @@ const{jwtSecret} = require('../../config')
 class UserControllerWS extends ControllerWS {
 
 	sendJWT(req, res) {
-		const json = jwt.sign(JSON.parse(JSON.stringify(req.json)), jwtSecret)
+		const json = jwt.sign(req.json.toJSON(), jwtSecret)
 		res.send(200, {jwt: json})
 	}
 }
