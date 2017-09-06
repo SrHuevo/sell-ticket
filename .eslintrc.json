@@ -1,0 +1,47 @@
+{
+  "extends": "airbnb",
+  "rules": {
+    "no-multi-spaces": 0,
+    "no-underscore-dangle": [0],
+    "consistent-return": 0,
+    "no-unused-expressions": [2, { "allowShortCircuit": true }],
+    "no-param-reassign": 0,
+    "func-names": 0,
+    "space-before-function-paren": [2, "never"],
+    "comma-dangle": ["error", "always-multiline"],
+    "no-shadow": 0,
+    "guard-for-in": 0,
+    "no-restricted-syntax": [2, "WithStatement"],
+    "newline-per-chained-call": [2, { "ignoreChainWithDepth": 5 }],
+    "space-in-parens": 0,
+    "key-spacing": 0,
+    "no-unused-vars": [2, { "vars": "all", "args": "none" }],
+    "max-len": 1,
+    "padded-blocks": 0,
+    "no-console": 0,
+    "import/no-extraneous-dependencies": 0,
+    "import/newline-after-import": 0,
+    "no-mixed-operators": 0,
+    "semi": ["error", "never"],
+    "space-before-blocks": ["error", "always"],
+    "keyword-spacing": ["error",
+      {
+        "before": true,
+        "after": false,
+        "overrides": {
+          "try": {
+            "after": true
+          },
+          "else" : {
+            "after": true
+          }
+        }
+      }
+    ],
+    "object-curly-spacing": ["error", "never"],
+    "no-tabs": "off",
+    "indent": ["error", "tab", {"MemberExpression": 1}],
+    "class-methods-use-this": "off",
+    "arrow-parens": ["error", "as-needed"]
+  }
+}

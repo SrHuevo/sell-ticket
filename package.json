@@ -1,0 +1,35 @@
+{
+  "name": "send-ticket",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js",
+    "lint": "eslint src lib"
+  },
+  "engines": {
+    "node": ">=6"
+  },
+  "author": " <>",
+  "dependencies": {
+    "@sendgrid/mail": "^6.1.2",
+    "bcrypt": "^1.0.2",
+    "bluebird": "^3.4.6",
+    "body-parser": "^1.15.2",
+    "express": "^4.15.4",
+    "express-jwt": "^5.3.0",
+    "helmet": "^3.1.0",
+    "mongoose": "^4.7.0",
+    "mongoose-auto-increment": "^5.0.1",
+    "morgan": "^1.7.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.11.1",
+    "eslint-config-airbnb": "^13.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.7.1",
+    "nodemon": "^1.11.0"
+  }
+}
