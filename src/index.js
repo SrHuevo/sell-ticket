@@ -22,7 +22,7 @@ app.use(helmet())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 app.use(morgan('tiny'))
-app.use(cors({origin: 'http://localhost:4200'}))
+app.use(cors())
 
 app.use('/', routes)
 
