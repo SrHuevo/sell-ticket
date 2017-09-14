@@ -11,6 +11,7 @@ const express = require('express')
 const helmet = require('helmet')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
+const cors = require('cors')
 
 const routes = require('./routes')
 
@@ -21,6 +22,7 @@ app.use(helmet())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 app.use(morgan('tiny'))
+app.use(cors({origin: 'http://localhost:4200'}))
 
 app.use('/', routes)
 

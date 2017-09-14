@@ -16,8 +16,7 @@ const mailSendPassword = async (req, res, next) => {
 			subject: 'Contraseña venta de tickets AZ',
 			html: `
 			<p> Cambie su contraseña siguiendo el siguiente link:</p>
-			<a href="${req.body.url}?token=${token}">Modifique su contraseña</a>
-			${token}
+			<a href="${req.get('origin')}/user/${req.json.email}/pass?token=${token}">Modifique su contraseña</a>
 			`,
 		}))[0]
 		if(result.statusCode === 202) {

@@ -9,6 +9,7 @@ const userSchema = new Schema(
 		profiles: {type: [String], required: true},
 		userCreated: {type: String, required: true},
 		dateCreated: {type: Date, required: false},
+		userUpdated: {type: String, required: true},
 		dateModified: {type: Date, required: false},
 	}, {
 		toObject: {
@@ -28,8 +29,8 @@ userSchema
 		this._id = email
 	})
 
-userSchema.pre('save', async function(next) {
-	this.dateCreated = new Date()
+userSchema.pre('save', function(next) {
+	this.dateCreated = this.dateCreated || new Date()
 	this.dateModified = new Date()
 	next()
 })

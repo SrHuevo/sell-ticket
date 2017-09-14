@@ -18,6 +18,7 @@ const ticketSchema = new Schema({
 	dni: {type: String, required: true},
 	dateOfPursache: {type: Date, required: false},
 	key: {type: Number, required: false},
+	immortal: {type: Boolean, required: true},
 	asAlive: {type: Goal, required: false},
 	asZombie1: {type: Goal, required: false},
 	asZombie2: {type: Goal, required: false},
