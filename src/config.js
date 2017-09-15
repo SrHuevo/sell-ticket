@@ -9,6 +9,7 @@ const config = {
 	jwtSecret: process.env.JWT_SECRET || 'superSecrect',
 	sendgridApiKey: process.env.SENDGRID_API_KEY,
 	fromMailer: process.env.FROM_MAILER,
+	fromName: process.env.FROM_NAME,
 }
 
 module.exports = config

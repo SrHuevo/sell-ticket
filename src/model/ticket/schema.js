@@ -16,8 +16,11 @@ const ticketSchema = new Schema({
 	name: {type: String, required: true},
 	email: {type: String, required: true},
 	dni: {type: String, required: true},
-	dateOfPursache: {type: Date, required: false},
 	key: {type: Number, required: false},
+	seller: {type: String, required: false},
+	dateOfPursache: {type: Date, required: false},
+	updater: {type: String, required: true},
+	dateUpdated: {type: Date, required: false},
 	immortal: {type: Boolean, required: true},
 	asAlive: {type: Goal, required: false},
 	asZombie1: {type: Goal, required: false},
@@ -48,6 +51,17 @@ ticketSchema.pre('save', function(next) {
 		deadDate: new Date(),
 		murdereds: 0,
 	}
+	next()
+})
+
+ticketSchema.pre('save', function(next) {
+	this.dateOfPursache = new Date()
+	this.dateUpdated = new Date()
+	next()
+})
+
+ticketSchema.pre('update', function(next) {
+	this.dateUpdated = new Date()
 	next()
 })
 

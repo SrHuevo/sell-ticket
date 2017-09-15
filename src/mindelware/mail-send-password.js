@@ -16,6 +16,7 @@ const mailSendPassword = async (req, res, next) => {
 			subject: 'Contraseña venta de tickets AZ',
 			html: `
 			<p> Cambie su contraseña siguiendo el siguiente link:</p>
+			<p>${req.get('origin')}/user/${req.json.email}/pass?token=${token}</p>
 			<a href="${req.get('origin')}/user/${req.json.email}/pass?token=${token}">Modifique su contraseña</a>
 			`,
 		}))[0]
