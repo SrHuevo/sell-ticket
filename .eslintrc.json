@@ -42,6 +42,7 @@
     "no-tabs": "off",
     "indent": ["error", "tab", {"MemberExpression": 1}],
     "class-methods-use-this": "off",
-    "arrow-parens": ["error", "as-needed"]
+    "arrow-parens": ["error", "as-needed"],
+    "linebreak-style": "off"
   }
 }

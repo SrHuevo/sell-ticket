@@ -3,15 +3,15 @@ const controllerWS = require('./controller-ws')
 const Router = require('express').Router
 const router = new Router()
 const security = require('../../mindelware/security')
-const{CHECKING} = require('../../super-powers')
-const check = require('../../mindelware/check-powers')
+const{CHECKING, TICKET_VIEWER, TICKET_EDITOR} = require('../../super-powers')
+const checkPowers = require('../../mindelware/check-powers')
 const jwt = require('jsonwebtoken')
 const{jwtSecret} = require('../../config')
 const sendMailTicket = require('../../mindelware/mail-send-ticket')
 
 router.route('/')
 	.all(security)
-	.all((...args) => check(...args)(CHECKING))
+	.all((...args) => checkPowers(...args)(CHECKING))
 	.get(
 		(req, res, next) => {
 			const token = jwt.sign({name: 'daniel', profile: 1}, jwtSecret)
@@ -19,9 +19,7 @@ router.route('/')
 			next()
 		},
 		(...args) => controllerDB.find(...args),
-		(req, res, next) => {
-			res.status(200).json(res.collection)
-		},
+		(...args) => controllerWS.ok(...args),
 	)
 	.post(
 		(...args) => controllerDB.create(...args),
@@ -30,13 +28,19 @@ router.route('/')
 	)
 
 router.route('/:id')
-	.put((...args) => controllerDB.update(...args))
-	.get(
+	.post(
+		(...args) => security(...args),
+		(...args) => checkPowers(...args)(TICKET_EDITOR),
+		(...args) => controllerDB.update(...args),
 		(...args) => controllerDB.findById(...args),
-		(req, res, next) => {
-			if(!res.doc) return res.sendStatus(204)
-			res.status(200).json(res.doc._doc)
-		}
+		(...args) => sendMailTicket(...args),
+		(...args) => controllerWS.ok(...args),
+	)
+	.get(
+		(...args) => security(...args),
+		(...args) => checkPowers(...args)(TICKET_VIEWER),
+		(...args) => controllerDB.findById(...args),
+		(...args) => controllerWS.ok(...args),
 	)
 
 module.exports = router

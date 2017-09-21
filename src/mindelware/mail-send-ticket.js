@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 const{fromName, fromMailer} = require('../config')
 const sg = require('../../lib/mailer')
 
@@ -11,6 +12,7 @@ const mailSendPassword = async (req, res, next) => {
 			dateOfPursache: req.json.dateOfPursache,
 			key: req.json.key,
 		})
+
 		const result = (await sg.send({
 			from: `${fromName}<${fromMailer}>`,
 			to: req.json.email,
@@ -25,6 +27,7 @@ const mailSendPassword = async (req, res, next) => {
 			<p>Nombre: ${req.json.name}</p>
 			<p>Email: ${req.json.email}</p>
 			<p>DNI: ${req.json.dni}</p>
+			<p>Ha sido apuntado para ser <strong>${req.json.immortal ? 'zombie inmortal' : 'humano'}</strong></p>
 			<br>
 			<p>Al final del evento os daremos un recuerdo, del mismo, personalizado. Por lo que es importante que su nombre sea correcto.</p>
 			<p>En caso de no serlo contacta con la persona que le vendió la entrada a través del siguiente correo: ${req.user.email}</p>

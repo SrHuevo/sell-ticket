@@ -54,8 +54,6 @@ router.route('/:id')
 		(...args) => controllerDB.get(...args),
 		(...args) => controllerWS.ok(...args),
 	)
-
-router.route('/:id')
 	.post(
 		(...args) => security(...args),
 		(...args) => checkPowers(...args)(USER_EDITOR),
