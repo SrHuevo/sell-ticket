@@ -29,6 +29,11 @@ class UserControllerDB extends ControllerDB {
 		}
 	}
 
+	me(req, res, next) {
+		req.params.id = req.user.id
+		super.findById(req, res, next)
+	}
+
 	async changePass(req, res, next) {
 		try {
 			const passCrypted = await cryptPassword(req.body.pass)

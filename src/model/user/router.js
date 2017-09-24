@@ -30,6 +30,13 @@ router.route('/pass')
 		(...args) => controllerWS.noConent(...args),
 	)
 
+router.route('/me')
+	.get(
+		(...args) => security(...args),
+		(...args) => controllerDB.me(...args),
+		(...args) => controllerWS.ok(...args),
+	)
+
 router.route('/:id/pass')
 	.post(
 		(...args) => security(...args),
