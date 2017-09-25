@@ -35,6 +35,7 @@ const mailSendPassword = async (req, res, next) => {
 			<p>A continuación debería ver un código QR que identifica su entrada, asegurese de que puede ver imágenes.</p>
 			<img src='https://api.qrserver.com/v1/create-qr-code/?data=${data}&amp;qzone=20'>
 			<p>Muchas gracias</p>
+			<p>PD: Le recomendamos que vaya con una camiseta a la que no aprecie mucho ya que el dorsal podría romperla.</p>
 			`,
 		}))[0]
 		if(result.statusCode === 202) {
