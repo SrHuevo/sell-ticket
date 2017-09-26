@@ -30,8 +30,11 @@ class UserControllerDB extends ControllerDB {
 	}
 
 	me(req, res, next) {
-		req.params.id = req.user.id
-		super.findById(req, res, next)
+		req.json = {
+			email: req.user.email,
+			profiles: req.user.profiles,
+		}
+		next()
 	}
 
 	async changePass(req, res, next) {

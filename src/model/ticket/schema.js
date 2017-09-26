@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 const autoIncrement = require('mongoose-auto-increment')
 
 const Goal = new Schema({
-	deadDate: {type: Date, required: true},
+	deadDate: {type: Date, required: false},
 	murdereds: {type: Number, required: true},
 })
 
@@ -22,10 +22,9 @@ const ticketSchema = new Schema({
 	updater: {type: String, required: true},
 	dateUpdated: {type: Date, required: false},
 	immortal: {type: Boolean, required: true},
+	reserved: {type: Boolean, required: true},
 	asAlive: {type: Goal, required: false},
-	asZombie1: {type: Goal, required: false},
-	asZombie2: {type: Goal, required: false},
-	asZombie3: {type: Goal, required: false},
+	asZombie: [{type: Goal, required: false}],
 	pointsAliveRol: {type: Number, default: 0},
 	pointsZombieRol: {type: Number, default: 0},
 	pointsScary: {type: Number, default: 0},
@@ -39,18 +38,6 @@ const ticketSchema = new Schema({
 ticketSchema.pre('save', function(next) {
 	this.dateOfPursache = new Date()
 	this.key = Math.random()
-	this.asZombie1 = {
-		deadDate: new Date(),
-		murdereds: 0,
-	}
-	this.asZombie2 = {
-		deadDate: new Date(),
-		murdereds: 0,
-	}
-	this.asZombie3 = {
-		deadDate: new Date(),
-		murdereds: 0,
-	}
 	next()
 })
 
