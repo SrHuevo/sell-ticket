@@ -3,14 +3,14 @@ const controllerWS = require('./controller-ws')
 const Router = require('express').Router
 const router = new Router()
 const security = require('../../mindelware/security')
-const{TICKET_CHECKING, TICKET_VIEWER, TICKET_EDITOR, TICKET_SELLER, TICKET_RATING} = require('../../super-powers')
+const {TICKET_CHECKING, TICKET_VIEWER, TICKET_EDITOR, TICKET_SELLER, TICKET_RATING} = require('../../super-powers')
 const checkPowers = require('../../mindelware/check-powers')
 const sendMailTicket = require('../../mindelware/mail-send-ticket')
 
 router.route('/')
-  .all(security)
+	.all(security)
 	.all((...args) => checkPowers(...args)(TICKET_SELLER))
-	.get
+	.get(
 		(...args) => controllerDB.find(...args),
 		(...args) => controllerWS.ok(...args),
 	)
@@ -21,7 +21,7 @@ router.route('/')
 	)
 
 router.route('/:id')
-  .all(security)
+	.all(security)
 	.post(
 		(...args) => checkPowers(...args)(TICKET_EDITOR),
 		(...args) => controllerDB.update(...args),
@@ -34,18 +34,22 @@ router.route('/:id')
 		(...args) => controllerDB.findById(...args),
 		(...args) => controllerWS.ok(...args),
 	)
-  .patch('/used',
-    (...args) => checkPowers(...args)(TICKET_CHECKING),
-    (...args) => controllerDB.checkUsed(...args),
-    (...args) => controllerDB.used(...args),
-    (...args) => controllerWS.noConent(...args),
-  )
-  .patch('/points',
-    (...args) => checkPowers(...args)(TICKET_RATING),
-    (...args) => controllerDB.update(...args),
-    (...args) => controllerWS.noConent(...args),
-  )
 
+router.route('/:id/used')
+	.all(security)
+	.patch(
+		(...args) => checkPowers(...args)(TICKET_CHECKING),
+		(...args) => controllerDB.checkUsed(...args),
+		(...args) => controllerDB.used(...args),
+		(...args) => controllerWS.noConent(...args),
+	)
 
+router.route('/:id/points')
+	.all(security)
+	.patch(
+		(...args) => checkPowers(...args)(TICKET_RATING),
+		(...args) => controllerDB.addPoints(...args),
+		(...args) => controllerWS.noConent(...args),
+	)
 
 module.exports = router

@@ -23,16 +23,16 @@ const ticketSchema = new Schema({
 	dateUpdated: {type: Date, required: false},
 	immortal: {type: Boolean, required: true},
 	reserved: {type: Boolean, required: true},
+	used: {type: Boolean, required: true},
 	asAlive: {type: Goal, required: false},
 	asZombie: [{type: Goal, required: false}],
-	pointsAliveRol: {type: Number, default: 0},
-	pointsZombieRol: {type: Number, default: 0},
+	pointsSurvival: {type: Number, default: 0},
+	pointsZombie: {type: Number, default: 0},
 	pointsScary: {type: Number, default: 0},
-	pointsBestCostume: {type: Number, default: 0},
-	pointsBestSelfie: {type: Number, default: 0},
-	pointsMostClever: {type: Number, default: 0},
-	pointsBestStorytelling: {type: Number, default: 0},
-	pointsFastest: {type: Number, default: 0},
+	pointsClumsy: {type: Number, default: 0},
+	pointsSoapOperaDeath: {type: Number, default: 0},
+	pointsPremature: {type: Number, default: 0},
+	pointMachiavellian: {type: Number, default: 0},
 })
 
 ticketSchema.pre('save', function(next) {
