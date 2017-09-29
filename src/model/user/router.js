@@ -1,7 +1,7 @@
 const controllerDB = require('./controller-db')
 const controllerWS = require('./controller-ws')
 const checkPowers = require('../../mindelware/check-powers')
-const{USER_CREATOR, CHANGE_MY_PASSWORD, USER_EDITOR, USER_VIWER} = require('../../super-powers')
+const{USER_CREATOR, CHANGE_MY_PASSWORD, USER_EDITOR, USER_VIEWER} = require('../../super-powers')
 const Router = require('express').Router
 const security = require('../../mindelware/security')
 const mailSendPassword = require('../../mindelware/mail-send-password')
@@ -49,7 +49,7 @@ router.route('/:id/pass')
 router.route('/')
 	.get(
 		(...args) => security(...args),
-		(...args) => checkPowers(...args)(USER_VIWER),
+		(...args) => checkPowers(...args)(USER_VIEWER),
 		(...args) => controllerDB.getList(...args),
 		(...args) => controllerWS.ok(...args),
 	)
@@ -57,7 +57,7 @@ router.route('/')
 router.route('/:id')
 	.get(
 		(...args) => security(...args),
-		(...args) => checkPowers(...args)(USER_VIWER),
+		(...args) => checkPowers(...args)(USER_VIEWER),
 		(...args) => controllerDB.get(...args),
 		(...args) => controllerWS.ok(...args),
 	)
