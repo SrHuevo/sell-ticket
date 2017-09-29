@@ -95,12 +95,4 @@ class UserControllerDB extends ControllerDB {
 	}
 }
 
-/*
- Error
- at model.wrappedPointCut [as save] (D:\workspace\lh\sell-ticket\node_modules\mongoose\lib\services\model\applyHooks.js:123:29)
- at UserFacade.create (D:\workspace\lh\sell-ticket\lib\facade.js:8:17)
- at UserControllerDB.removeAndUpdated (D:\workspace\lh\sell-ticket\src\model\user\controller-db.js:79:34)
- at <anonymous>
- */
-
 module.exports = new UserControllerDB(userFacade)
