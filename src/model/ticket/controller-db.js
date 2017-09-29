@@ -1,3 +1,4 @@
+const{CAN_RESERVE} = require('../../super-powers')
 const Controller = require('../../../lib/controller-db')
 const ticketFacade = require('./facade')
 
@@ -22,10 +23,25 @@ class TicketController extends Controller {
 		}
 	}
 
-	used(req, res, next) {
-		req.body.updater = req.user.email
-		req.body.used = true
-		super.update(req, res, next)
+	async used(req, res, next) {
+		try {
+			if(req.body.reserved && req.user.profiles.indexOf(CAN_RESERVE) === -1) {
+				return next({error: 403, message: 'you havent permissions'})
+			}
+
+			const $set = {
+				updater: req.user.email,
+				used: true,
+			}
+			req.body._id = req.params.id
+			const result = await this.facade.update(req.body, {$set})
+			if(result.nModified !== 1) {
+				return next({error: 409, message: 'the ticked has wrong params'})
+			}
+			next()
+		} catch(err) {
+			next(err)
+		}
 	}
 
 	async addPoints(req, res, next) {
