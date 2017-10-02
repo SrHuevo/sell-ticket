@@ -7,7 +7,7 @@ const mailSendPassword = async (req, res, next) => {
 	const token = jwt.sign({
 		email: req.json.email,
 		profiles: [superPowers.CHANGE_MY_PASSWORD],
-	}, jwtSecret, {expiresIn: '30m'})
+	}, jwtSecret, {expiresIn: '4h'})
 
 	try {
 		const result = (await sg.send({
