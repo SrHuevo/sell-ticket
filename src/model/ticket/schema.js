@@ -36,13 +36,8 @@ const ticketSchema = new Schema({
 
 ticketSchema.pre('save', function(next) {
 	this.dateOfPursache = new Date()
-	this.key = Math.random()
-	next()
-})
-
-ticketSchema.pre('save', function(next) {
-	this.dateOfPursache = new Date()
 	this.dateUpdated = new Date()
+	this.key = Math.random()
 	next()
 })
 
