@@ -69,7 +69,7 @@ class TicketController extends Controller {
 	async used(req, res, next) {
 		try {
 			if(req.body.reserved && req.user.profiles.indexOf(CAN_RESERVE) === -1) {
-				return next({error: 403, message: 'you havent permissions'})
+				return next({status: 403, message: 'you haven\'t permissions'})
 			}
 
 			const $set = {
@@ -79,7 +79,7 @@ class TicketController extends Controller {
 			req.body._id = req.params.id
 			const result = await this.facade.update(req.body, {$set})
 			if(result.nModified !== 1) {
-				return next({error: 409, message: 'the ticked has wrong params'})
+				return next({status: 409, message: 'the ticket has wrong params'})
 			}
 			next()
 		} catch(err) {
