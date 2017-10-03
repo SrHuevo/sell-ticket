@@ -3,6 +3,10 @@ const mailTicket = require('../utils/mail-ticket')
 const sg = require('../../lib/mailer')
 
 const mailSendPassword = async (req, res, next) => {
+	if(req.header('no-mail')) {
+		return next()
+	}
+
 	try {
 		const data = JSON.stringify({
 			_id: req.json._id,
