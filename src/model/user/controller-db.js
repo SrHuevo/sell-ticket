@@ -10,6 +10,7 @@ class UserControllerDB extends ControllerDB {
 				email: true,
 				profiles: true,
 				pass: true,
+				test: true,
 			})
 			await comparePassword(req.body.pass, req.json.pass)
 			next()

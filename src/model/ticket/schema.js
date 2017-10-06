@@ -32,6 +32,8 @@ const ticketSchema = new Schema({
 	pointsSoapOperaDeath: {type: Number, default: 0},
 	pointsPremature: {type: Number, default: 0},
 	pointMachiavellian: {type: Number, default: 0},
+	weapon: {type: Boolean, default: false},
+	tests: [{type: String, default: 0}],
 })
 
 ticketSchema.pre('save', function(next) {
