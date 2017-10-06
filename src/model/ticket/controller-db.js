@@ -57,6 +57,7 @@ class TicketController extends Controller {
 
 			const humans = await countHumansPromise
 			const zombies = await countZombiesPromise
+			const total = humans + zombies
 			const weapons = await countWeaponsPromise
 
 			req.json = {
@@ -70,7 +71,7 @@ class TicketController extends Controller {
 				machiavellian: (await pointMachiavellianPromise).map(rank => ({dorsal: rank._id, points: rank.pointMachiavellian})),
 				testsPassed: (await testsPassedPromise).map(rank => ({dorsal: rank._id, points: rank.tests.length, tests: rank.tests})),
 				premature: {dorsal: (await getPrematurePromise)._id},
-				state: {zombies, humans},
+				state: {zombies, humans, total},
 				weapons,
 			}
 			next()
@@ -118,13 +119,13 @@ class TicketController extends Controller {
 					murders: req.body.kills,
 				}
 				const $push = {asZombie: {$each: [goal], $sort: {murders: -1}}}
-				await this.facade.update({_id: req.params.id}, {$push})
+				await this.facade.update({_id: req.params.id}, {$push, $set: {weapon: false}})
 			} else {
 				const asAlive = {
 					deadDate: new Date(),
 					kills: req.body.kills,
 				}
-				const $set = {asAlive}
+				const $set = {asAlive, weapon: false}
 				await this.facade.update({_id: req.params.id}, {$set})
 			}
 			next()

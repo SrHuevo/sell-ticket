@@ -13,6 +13,7 @@ const superPowers = {
 	CHANGE_MY_PASSWORD: 'CHANGE_MY_PASSWORD',
 	VIEW_MY_DATA_BUYER: 'VIEW_MY_DATA_BUYER',
 	CHANGE_MY_DATA_BUYER: 'CHANGE_MY_DATA_BUYER',
+	ADMIN: 'ADMIN',
 }
 
 module.exports = superPowers
