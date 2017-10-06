@@ -23,7 +23,7 @@ class TicketController extends Controller {
 		}
 	}
 
-	async getBetters(req, res, next) {
+	async getRank(req, res, next) {
 		try {
 			const options = {
 				skip: Number(req.query.skip),
@@ -48,6 +48,16 @@ class TicketController extends Controller {
 			options.sort = {pointMachiavellian: -1}
 			const pointMachiavellianPromise = this.facade.find({}, {_id: true, pointMachiavellian: true}, options)
 			const getPrematurePromise = this.facade.findOne({asAlive: {$exists: true}}, {_id: true}, {sort: {'asAlive.deadDate': 1}})
+			options.sort = {'tests.length': -1}
+			const testsPassedPromise = this.facade.find({tests:{$exists:true}}, {_id: true, tests: true}, options)
+
+			const countHumansPromise = this.facade.count({used: true, immortal: false, asAlive:{$exists: false}})
+			const countZombiesPromise = this.facade.count({used: true, $or:[{immortal: false}, {asAlive:{$exists: true}}]})
+			const countWeaponsPromise = this.facade.count({weapon: true})
+
+			const humans = await countHumansPromise
+			const zombies = await countZombiesPromise
+			const weapons = await countWeaponsPromise
 
 			req.json = {
 				goalAlive: (await asAlivePromise).map(rank => ({dorsal: rank._id, points: rank.asAlive.kills})),
@@ -58,7 +68,10 @@ class TicketController extends Controller {
 				clumsy: (await pointsClumsyPromise).map(rank => ({dorsal: rank._id, points: rank.pointsClumsy})),
 				soapOperaDeath: (await pointsSoapOperaDeathPromise).map(rank => ({dorsal: rank._id, points: rank.pointsSoapOperaDeath})),
 				machiavellian: (await pointMachiavellianPromise).map(rank => ({dorsal: rank._id, points: rank.pointMachiavellian})),
+				testsPassed: (await testsPassedPromise).map(rank => ({dorsal: rank._id, points: rank.tests.length, tests: rank.tests})),
 				premature: {dorsal: (await getPrematurePromise)._id},
+				state: {zombies, humans},
+				weapons,
 			}
 			next()
 		} catch(err) {
@@ -114,6 +127,21 @@ class TicketController extends Controller {
 				const $set = {asAlive}
 				await this.facade.update({_id: req.params.id}, {$set})
 			}
+			next()
+		} catch(err) {
+			next(err)
+		}
+	}
+
+	async updateTest(req, res, next) {
+		try {
+			await req.body.map(async player =>
+				await this.facade.update(
+					{_id: player.dorsal},
+					{
+						$addToSet: {tests: req.user.test},
+						weapon: player.weapon,
+					}))
 			next()
 		} catch(err) {
 			next(err)

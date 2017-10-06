@@ -10,6 +10,7 @@ const{
 	TICKET_SELLER,
 	TICKET_RATING,
 	TICKET_DEAD,
+	TICKET_TEST_PASSED,
 } = require('../../super-powers')
 const checkPowers = require('../../mindelware/check-powers')
 const sendMailTicket = require('../../mindelware/mail-send-ticket')
@@ -31,8 +32,16 @@ router.route('/rank')
 	.all(security)
 	.all((...args) => checkPowers(...args)(TICKET_VIEWER))
 	.get(
-		(...args) => controllerDB.getBetters(...args),
+		(...args) => controllerDB.getRank(...args),
 		(...args) => controllerWS.ok(...args),
+	)
+
+router.route('/test')
+	.all(security)
+	.all((...args) => checkPowers(...args)(TICKET_TEST_PASSED))
+	.patch(
+		(...args) => controllerDB.updateTest(...args),
+		(...args) => controllerWS.noConent(...args),
 	)
 
 router.route('/:id')
