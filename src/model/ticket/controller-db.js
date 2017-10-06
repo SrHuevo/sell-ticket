@@ -70,7 +70,7 @@ class TicketController extends Controller {
 				soapOperaDeath: (await pointsSoapOperaDeathPromise).map(rank => (rank && {dorsal: rank._id, points: rank.pointsSoapOperaDeath})),
 				machiavellian: (await pointMachiavellianPromise).map(rank => (rank && {dorsal: rank._id, points: rank.pointMachiavellian})),
 				testsPassed: (await testsPassedPromise).map(rank => (rank && {dorsal: rank._id, points: rank.tests.length, tests: rank.tests})),
-				premature: {dorsal: (await getPrematurePromise)._id},
+				premature: {dorsal: ((await getPrematurePromise) && {})._id},
 				state: {zombies, humans, total},
 				weapons,
 			}
