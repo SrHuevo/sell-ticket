@@ -30,8 +30,7 @@ const ticketSchema = new Schema({
 	pointsScary: {type: Number, default: 0},
 	pointsClumsy: {type: Number, default: 0},
 	pointsSoapOperaDeath: {type: Number, default: 0},
-	pointsPremature: {type: Number, default: 0},
-	pointMachiavellian: {type: Number, default: 0},
+	pointsMachiavellian: {type: Number, default: 0},
 	weapon: {type: Boolean, default: false},
 	tests: [{type: String, default: 0}],
 })
