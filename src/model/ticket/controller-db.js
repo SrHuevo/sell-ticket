@@ -61,16 +61,16 @@ class TicketController extends Controller {
 			const weapons = await countWeaponsPromise
 
 			req.json = {
-				goalAlive: (await asAlivePromise).map(rank => ({dorsal: rank._id, points: rank.asAlive.kills})),
-				goalZombie: (await asZombiePromise).map(rank => ({dorsal: rank._id, points: rank.asZombie[0].murders})),
-				survival: (await pointsSurvivalPromise).map(rank => ({dorsal: rank._id, points: rank.pointsSurvival})),
-				zombie: (await pointsZombiePromise).map(rank => ({dorsal: rank._id, points: rank.pointsZombie})),
-				scary: (await pointsScaryPromise).map(rank => ({dorsal: rank._id, points: rank.pointsScary})),
-				clumsy: (await pointsClumsyPromise).map(rank => ({dorsal: rank._id, points: rank.pointsClumsy})),
-				soapOperaDeath: (await pointsSoapOperaDeathPromise).map(rank => ({dorsal: rank._id, points: rank.pointsSoapOperaDeath})),
-				machiavellian: (await pointMachiavellianPromise).map(rank => ({dorsal: rank._id, points: rank.pointMachiavellian})),
-				testsPassed: (await testsPassedPromise).map(rank => ({dorsal: rank._id, points: rank.tests.length, tests: rank.tests})),
-				premature: {dorsal: (await getPrematurePromise)._id},
+				goalAlive: (await asAlivePromise).map(rank => (rank && {dorsal: rank._id, points: rank.asAlive.kills})),
+				goalZombie: (await asZombiePromise).map(rank => (rank && {dorsal: rank._id, points: rank.asZombie[0].murders})),
+				survival: (await pointsSurvivalPromise).map(rank => (rank && {dorsal: rank._id, points: rank.pointsSurvival})),
+				zombie: (await pointsZombiePromise).map(rank => (rank && {dorsal: rank._id, points: rank.pointsZombie})),
+				scary: (await pointsScaryPromise).map(rank => (rank && {dorsal: rank._id, points: rank.pointsScary})),
+				clumsy: (await pointsClumsyPromise).map(rank => (rank && {dorsal: rank._id, points: rank.pointsClumsy})),
+				soapOperaDeath: (await pointsSoapOperaDeathPromise).map(rank => (rank && {dorsal: rank._id, points: rank.pointsSoapOperaDeath})),
+				machiavellian: (await pointMachiavellianPromise).map(rank => (rank && {dorsal: rank._id, points: rank.pointMachiavellian})),
+				testsPassed: (await testsPassedPromise).map(rank => (rank && {dorsal: rank._id, points: rank.tests.length, tests: rank.tests})),
+				premature: {dorsal: ((await getPrematurePromise) || {})._id},
 				state: {zombies, humans, total},
 				weapons,
 			}
@@ -119,13 +119,13 @@ class TicketController extends Controller {
 					murders: req.body.kills,
 				}
 				const $push = {asZombie: {$each: [goal], $sort: {murders: -1}}}
-				await this.facade.update({_id: req.params.id}, {$push, $set: {weapon: false}})
+				await this.facade.update({_id: req.params.id}, {$push})
 			} else {
 				const asAlive = {
 					deadDate: new Date(),
 					kills: req.body.kills,
 				}
-				const $set = {asAlive, weapon: false}
+				const $set = {asAlive}
 				await this.facade.update({_id: req.params.id}, {$set})
 			}
 			next()
@@ -136,11 +136,11 @@ class TicketController extends Controller {
 
 	async updateTest(req, res, next) {
 		try {
-			await req.body.map(async player =>
+			await req.body.players.map(async player =>
 				await this.facade.update(
 					{_id: player.dorsal},
 					{
-						$addToSet: {tests: req.user.test},
+						$addToSet: {tests: req.body.test},
 						weapon: player.weapon,
 					}))
 			next()
