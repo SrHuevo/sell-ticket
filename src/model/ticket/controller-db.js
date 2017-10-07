@@ -52,7 +52,7 @@ class TicketController extends Controller {
 			const testsPassedPromise = this.facade.find({tests:{$exists:true}}, {_id: true, tests: true}, options)
 
 			const countHumansPromise = this.facade.count({used: true, immortal: false, asAlive:{$exists: false}})
-			const countZombiesPromise = this.facade.count({used: true, $or:[{immortal: false}, {asAlive:{$exists: true}}]})
+			const countZombiesPromise = this.facade.count({used: true, $or:[{immortal: true}, {asAlive:{$exists: true}}]})
 			const countWeaponsPromise = this.facade.count({weapon: true})
 
 			const humans = await countHumansPromise
