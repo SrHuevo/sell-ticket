@@ -34,6 +34,7 @@ class UserControllerDB extends ControllerDB {
 		req.json = {
 			email: req.user.email,
 			profiles: req.user.profiles,
+			test: req.user.test,
 		}
 		next()
 	}

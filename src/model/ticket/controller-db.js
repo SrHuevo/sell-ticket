@@ -119,13 +119,13 @@ class TicketController extends Controller {
 					murders: req.body.kills,
 				}
 				const $push = {asZombie: {$each: [goal], $sort: {murders: -1}}}
-				await this.facade.update({_id: req.params.id}, {$push, $set: {weapon: false}})
+				await this.facade.update({_id: req.params.id}, {$push})
 			} else {
 				const asAlive = {
 					deadDate: new Date(),
 					kills: req.body.kills,
 				}
-				const $set = {asAlive, weapon: false}
+				const $set = {asAlive}
 				await this.facade.update({_id: req.params.id}, {$set})
 			}
 			next()
@@ -136,11 +136,11 @@ class TicketController extends Controller {
 
 	async updateTest(req, res, next) {
 		try {
-			await req.body.map(async player =>
+			await req.body.players.map(async player =>
 				await this.facade.update(
 					{_id: player.dorsal},
 					{
-						$addToSet: {tests: req.user.test},
+						$addToSet: {tests: req.body.test},
 						weapon: player.weapon,
 					}))
 			next()
